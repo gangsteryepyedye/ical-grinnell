@@ -45,7 +45,6 @@ int main(int argc, char** argv){
 FILE* printHeader(){
 
     FILE *html = fopen("events.html", "w"); 
-    fprintf(html,"Content-Type: text/html\n\n");
     fprintf(html,"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 5.0//EN\">\n\n");
     fprintf(html,"<HTML>\n\n");
     fprintf(html,"<HEAD>\n");
