@@ -1,0 +1,56 @@
+I believe that the most important files for the people that are going to be generating the printable output file are 
+	1. dataStructures.h
+	2. calSystem.h
+
+
+dataStructures.h:
+	this defines all of the data structures that are used in the system(at least the ones we defined)
+	The over all structure is
+	work_week:
+		misc info
+		an array of 7 pointers to work_days
+	work_day:
+		a pointer to the first event_node of the day. 
+		NOTE: currently this is a rather pointless data structure, however I think that we may want to add
+		more fields to the work_day type in the future
+	event_node:
+		start and ending time of the event
+		summary of the event (this is likely the name of the event)
+		location of the event
+		time string: a string that has the form hh:mm - hh:mm
+		options: a pointer to a node_options structure
+		next_event: the next event 
+	node_options:
+		box_color: the color the event box representing the event should be colored on the printed version
+		text_color: the color the text should be
+		*_font: the font that __ should be. 
+
+
+
+calSystem.h:
+	This has the top level functions.
+
+	createConfiguration: it creates the configuration_info structure that will be used in the rest of the program. Currently it
+		just calls defaultConfiguration, but in the future we will likely modify it so it can also read from a file. 
+
+	createWorkWeekFromFile: this does exactly what is says, given a file name and configInfo it will create
+		return a pointer to a work_week structure, 
+
+	createPrintableFile: this is just a stub this creates the final file.
+
+NOTE: several of the data structures have redundant information. 
+
+TODO:
+	TESTING!!!!!!
+	FILL out stubs:
+		postProcessEvents.c:
+			eventSpansTwoDays
+			splitEvent
+			truncateTime
+			setColors (later)
+			setFonts (later)
+		calSystem.c
+			createPrintableFile
+			createConfiguration (later)
+		
+

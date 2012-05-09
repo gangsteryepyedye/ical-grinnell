@@ -1,0 +1,120 @@
+The ____ system works will create a printable schedule of a work
+week. Various options can be set using the icalConfig file.
+
+
+icalConfig file
+The icalConfig file is read when the system start up. It sets a variery of
+options. The format of this is detailed below. The general format is
+
+nameOfField   =  value
+
+START_OF_DAY:
+  The START_OF_DAY field indicates at what time a work day begins. Events
+  that end before this will not be displayed. If an event begins before
+  this time but ends after it will be displayed, however the box
+  representing that event will begin where the box for an event starting at
+  START_OF_DAY would begin. The format of the value is hh:mm (hour: minute)
+  where hour is a value 0-23, and minute is a value 0-59
+
+END_OF_DAY:
+  The endOfDay field indicates at what time a work day ends. Events begin
+  after this time will not be displayed. If an event begins before this
+  time, but ends afterwords the event will be displayed, however the box
+  representing the event will ends where the box for and event ending at
+  endOfDay would end. The format of the value is hh:mm(hour:minute) where
+  hour is a value 0-23 and minute is a value 0-59
+
+TWENTY_FOUR_HOUR:
+ the TWENTY_FOUR_HOUR field controls the format of time strings. It can have
+ two values, FALSE or TRUE. If twentyFourHr = FALSE then time strings are
+ formatted using twelve hour time(midnight and noon are 12). If
+ TWENTY_FOUR_HOUR = TRUE then time strings are formated using twenty four hour
+ clocks(0 is midnight)
+
+
+FIRST_DAY:
+ The FIRST_DAY field indicates which day of the week is considered to be
+ the first day of the work week. That day will be displayed as the leftmost day
+ in the printed output. it can have the following values
+ SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, or SATURDAY
+
+LAST_DAY:
+ The LAST_DAY field indicates which day of the week is considered to be the
+ last day of the work week. That day will be displayed as the rightmost day
+ in the printed output. It can have the following values
+ SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, or SATURDAY
+
+OUTPUT_FILE
+ The OUTPUT_FILE field indicates what the output file should be named.
+ It can be any string upto 99 characters long, but must not include any
+ whitespace
+
+TIME_FONT:
+ The timeFont field indicates which font should be used when writing out
+ the times during which an event occurs. It can have the following values:
+ FONT_A or FONT_B
+
+SUMMARY_FONT:
+ The SUMMARY_FONT field indicates which font should be used when writing out
+ the summary of an event(most typically the name of the event). It can have
+ the following values:
+ FONT_A or FONT_B
+
+LOCATION_FONT:
+ The LOCATION_FONT field indicates which font should be used when writing
+ out the location of an event. It can have the following values:
+ FONT_A or FONT_B
+
+FONT_COLOR:
+ The FONT_COLOR field indicates what color text should be. It have the
+ following values:
+  CLEAR, RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE, or BLACK
+
+BOX_COLOR:
+ The BOX_COLOR field indicates what color an event box should be. It can
+ have the following values:
+  CLEAR, RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE, or BLACK
+
+
+
+RULES
+
+The TIME_FONT, SUMMARY_FONT, LOCATION_FONT, FONT_COLOR, and BOX_COLOR fields all
+set default values for how events are displayed. In addition to that it is
+possible to set these values to be different for different events. This is
+done using a rule.
+
+A rule is a single line (begining with "Rule") that has the following
+format:
+
+Rule antecedentField = "antecedentValue" : consequentField = consequentValue
+
+antecedentField:
+ The antecedentField can be 
+ SUMMARY, LOCATION, or TIME
+
+antecedentValue:
+ A string enclosed with quotes
+
+consequentField:
+ The consequentField can be 
+ BOX_COLOR, TEXT_COLOR, TIME_FONT, SUMMARY_FONT, or LOCATION_FONT
+
+consequentValue:
+ The consequent value is any of the appropriate options depending upon the
+ consequent field. For example if the consequent field was BOX_COLOR then
+ the consequentValue could be 
+ CLEAR, RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE, or BLACK
+
+For each event the rule is tested. If the antecedent field for an event has
+the value antecedentValue then that event has its consequentField set to be
+consequentValue 
+
+For example:
+
+The rule 
+
+Rule SUMMARY = "Lunch" : BOX_COLOR = BLUE
+
+Wold have all events that have the summary "Lunch" be displayed in a blue
+box regardless of what the BOX_COLOR was set as. 
