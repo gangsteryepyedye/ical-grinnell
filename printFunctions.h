@@ -9,7 +9,12 @@
 #include "calEnum.h"
 
 
+
 char * substr(char* str, int start, int length);
+
+void fprintTimes(FILE* html);
+
+void fprintWeekDay(int d,FILE* html);
 
 void printEventNode(event_node *event,FILE* html);
 

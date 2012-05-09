@@ -25,10 +25,15 @@ int main(int argc, char** argv){
   createPrintableFile(week, configInfo);
   html = printHeader();
   int i;
-  for(i = 0; i < 7;i++){
-    fprintf(html,"<ul style='float:left'>");
-    fprintf(html,"<li>Monday</li>");
-    printEvents(week->day[i]->first_event,html);
+  for(i = -1; i < 7;i++){
+    fprintf(html,"<ul style='float:left;list-style-type:none;border-right:1px solid rgb(221, 221, 221);font-size:12px;min-width:150px;min-height:1080px;padding-left:5px;padding-right:5px;'>");
+    if(i==-1){
+      fprintTimes(html);
+    }
+    else{
+      fprintWeekDay(i,html);
+      printEvents(week->day[i]->first_event,html);
+    }
     fprintf(html,"</ul>");
   }
     cleanup(week, configInfo);

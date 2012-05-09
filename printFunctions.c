@@ -4,7 +4,9 @@
 #include <string.h> 
 
 void printEventNode(event_node *event, FILE* html){
-  fprintf(html,"<li>");
+  fprintf(html,"<li style='background-color:rgb(227,227,255);border-color:#A9ABFE;color:#333;'>");
+
+
   fprintf(html,"%s\n", event->summary);
   fprintf(html,"<br>");
   fprintf(html,"\tLocation: %s\n", event->location);
@@ -24,8 +26,36 @@ void printEventNode(event_node *event, FILE* html){
   fprintf(html,"<br>");
 }
 
+void fprintTimes(FILE* html){
+    fprintf(html,"<li style='margin-bottom:60px;margin-top:28px;border-top:1px dotted rgb(221, 221, 221);'>1am</li>");
+    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>2am</li>"); 
+   fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>3am</li>");    
+fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>4am</li>");   
+ fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>5am</li>");
+    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>6am</li>");
+    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>7am</li>");
+    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>8am</li>");
+    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>9am</li>");  
+  fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>10am</li>");
+    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>11am</li>");
+    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>12pm</li>");
+    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>1pm</li>");
+    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>2pm</li>");
+    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>3pm</li>");
+    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>4pm</li>");
+    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>5pm</li>");
+    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>6pm</li>");
+    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>7pm</li>");
+    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>8pm</li>");
+    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>9pm</li>");
+    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>10pm</li>");   
+ fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>11pm</li>");
+  
+
+}
+
 void printEmptyEventNode(FILE* html){
-    fprintf(html,"<li style=\"margin-bottom:60px\"></li>");
+    fprintf(html,"<li style='margin-bottom:60px;border-bottom:1px dotted rgb(221, 221, 221);'><br></li>");
  }
 
 
@@ -57,6 +87,39 @@ void printConfigurationInfo(configuration_info * configInfo){
   printf("\n");
 }
 
+void fprintWeekDay(int d,FILE* html){
+  
+
+  switch (d)
+    {
+    case 0:
+      fprintf(html,"<li>Sunday</li>");
+      break;
+    case 1:
+      fprintf(html,"<li>Monday</li>");
+      break;
+    case 2:
+      fprintf(html,"<li>Tuesday</li>");
+      break;
+    case 3:
+      fprintf(html,"<li>Wednesday</li>");
+      break;
+    case 4:
+      fprintf(html,"<li>Thursday</li>");
+      break;
+    case 5:
+      fprintf(html,"<li>Friday</li>");
+      break;
+    case 6:
+      fprintf(html,"<li>Saturday</li>");
+      break;
+    default:
+      printf("Unknown");
+    }
+
+
+
+}
 
 void printWeekDay(enum day_of_week d){
   
@@ -87,7 +150,7 @@ void printWeekDay(enum day_of_week d){
     default:
       printf("Unknown");
     }
-  printf("</li>");
+  
 }
 
 void printColor(enum color c){
@@ -139,7 +202,13 @@ void printEvents(event_node *firstEvent,FILE* html){
   event_node *currentEvent = firstEvent;
   char* time[24]={"1:","2:","3:","4:","5:","6:","7:","8:","9:","10:","11:","12:","1:","2:","3:","4:","5:","6:","7:","8:","9:","10:","11:","12:"};
   int counter=0;
-  
+  int i;
+  if(firstEvent==NULL){
+    for(i=0;i<24;i++){
+      printEmptyEventNode(html);
+    }
+  }
+
   while(currentEvent != NULL){
     
     char* temp=(char*)malloc(10);
@@ -161,6 +230,16 @@ void printEvents(event_node *firstEvent,FILE* html){
     }
 
   }
+  
+  if(counter>0){
+    int j;
+    for(j=(24-counter);j>1;j--){
+      printEmptyEventNode(html);
+    }
+  }
+
+
+
 }
 
 char * substr(char* str, int start, int length) {
