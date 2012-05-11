@@ -53,8 +53,9 @@ event_node * createEventNode(icalcomponent *event){
 
   newEvent->end_time = mktime(newEvent->et);
   newEvent->next_event = NULL;
-  strncpy(newEvent->summary, icalcomponent_get_summary(event), 30 * sizeof(char));
-  strncpy(newEvent->location, icalcomponent_get_location(event), 30 * sizeof(char));  
+  strncpy(newEvent->summary, icalcomponent_get_summary(event), 30);
+  //printf("String Length of Location: %d\n", strlen(icalcomponent_Get_location(event)));
+  strncpy(newEvent->location, icalcomponent_get_location(event), 30);  
   newEvent->summary[30] ='\0';
   newEvent->location[30] ='\0';
 

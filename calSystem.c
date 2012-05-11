@@ -77,6 +77,7 @@ work_week * createWorkWeekFromFile(char * calendarFile, configuration_info *conf
 
   return week;
 }
+
 void freeEvent(event_node *event){
   free(event->st);
   free(event->et);
@@ -85,7 +86,6 @@ void freeEvent(event_node *event){
   free(event->timeString);
   free(event->options);
 }
-
 
 void freeDay(work_day *day){
   event_node *curEvent,*nextEvent;

@@ -64,12 +64,12 @@ int main(int argc, char** argv){
   int* year=(int*)malloc(sizeof(int));
 
   //get_date(month,day,year);	
-  int monday = 11-weekday(5,11,2012)-1;
-  printf("%d",monday);
-  setStartDate(configInfo,5,monday,2012);
+  //int monday = 11-weekday(5,11,2012);
+  //printf("%d",monday);
+  setStartDate(configInfo,5,6,2012);
   //printConfigurationInfo(configInfo);
-  // printf("%s\n",configInfo->nameOfOutputFile);
-  week = createWorkWeekFromFile("academic.ics", configInfo);
+  //printf("%s\n",configInfo->nameOfOutputFile);
+  week = createWorkWeekFromFile("basic.ics", configInfo);
 
   createPrintableFile(week, configInfo);
   html = printHeader();
@@ -81,6 +81,7 @@ int main(int argc, char** argv){
     }
     else{
       fprintWeekDay(i,html);
+      printf("Day %d \n", i);
       printEvents(week->day[i]->first_event,html);
     }
     fprintf(html,"</ul>");
