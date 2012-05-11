@@ -27,16 +27,11 @@ void printEventNode(event_node *event, FILE* html){
 }
 
 void fprintTimes(FILE* html){
-    fprintf(html,"<li style='margin-bottom:60px;margin-top:28px;border-top:1px dotted rgb(221, 221, 221);'>1am</li>");
-    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>2am</li>"); 
-   fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>3am</li>");    
-fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>4am</li>");   
- fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>5am</li>");
-    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>6am</li>");
-    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>7am</li>");
+
+    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);margin-top:30px;'>7am</li>");
     fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>8am</li>");
     fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>9am</li>");  
-  fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>10am</li>");
+    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>10am</li>");
     fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>11am</li>");
     fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>12pm</li>");
     fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>1pm</li>");
@@ -44,12 +39,7 @@ fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 
     fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>3pm</li>");
     fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>4pm</li>");
     fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>5pm</li>");
-    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>6pm</li>");
-    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>7pm</li>");
-    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>8pm</li>");
-    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>9pm</li>");
-    fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>10pm</li>");   
- fprintf(html,"<li style='margin-bottom:60px;border-top:1px dotted rgb(221, 221, 221);'>11pm</li>");
+    
   
 
 }
@@ -200,11 +190,11 @@ void printFont(enum font c){
 
 void printEvents(event_node *firstEvent,FILE* html){
   event_node *currentEvent = firstEvent;
-  char* time[24]={"1:","2:","3:","4:","5:","6:","7:","8:","9:","10:","11:","12:","1:","2:","3:","4:","5:","6:","7:","8:","9:","10:","11:","12:"};
+  char* timeArray[11]={"7:","8:","9:","10:","11:","12:","1:","2:","3:","4:","5:"};
   int counter=0;
   int i;
   if(firstEvent==NULL){
-    for(i=0;i<24;i++){
+    for(i=0;i<11;i++){
       printEmptyEventNode(html);
     }
   }
@@ -214,17 +204,17 @@ void printEvents(event_node *firstEvent,FILE* html){
     char* temp=(char*)malloc(10);
     
     temp=substr(currentEvent->timeString,0,4);
-    printf("Temp: %s",temp);
-    printf("Time: %s\n",time[counter]);
+    //printf("Temp: %s",temp);
+    //printf("Time: %s\n",time[counter]);
 
-    if(temp[0]==time[counter][0]&&temp[1]==time[counter][1]){
-      printf("Printing real shit\n");
+    if(temp[0]==timeArray[counter][0]&&temp[1]==timeArray[counter][1]){
+
       printEventNode(currentEvent,html);
       counter++;
       currentEvent = currentEvent->next_event;
     }
     else{
-      printf("Printing empty shit\n");
+
       printEmptyEventNode(html);
       counter++;
     }
@@ -233,7 +223,7 @@ void printEvents(event_node *firstEvent,FILE* html){
   
   if(counter>0){
     int j;
-    for(j=(24-counter);j>1;j--){
+    for(j=(11-counter);j>1;j--){
       printEmptyEventNode(html);
     }
   }

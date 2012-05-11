@@ -4,8 +4,8 @@ OBJS = calSystem.o readInCal.o setupWeek.o \
  printFunctions.o readConfigFile.o \
  enumFunctions.o
 CC = gcc
-CFLAGS = -Wall -c -g $(DEBUG)
-LFLAGS = -Wall -g  $(DEBUG) -lical
+CFLAGS = -Wall -c -ggdb3 $(DEBUG)
+LFLAGS = -Wall -ggdb3  $(DEBUG) -lical
 
 calSys : $(OBJS) main.c
 	$(CC) $(LFLAGS) main.c $(OBJS) -o calSys

@@ -7,6 +7,47 @@
 #include "readConfigFile.h"
 
 
+void get_date( int * month, int * day, int * year ) {
+    time_t timenow = time(0); 
+    struct tm *current;
+
+
+    current = localtime(&timenow);
+
+
+
+return;
+}
+
+
+//
+// given month, day, year, returns day of week, eg. Monday = 0 etc.
+// tested for 1901 to 2099 (seems to work from 1800 on too)
+// 
+int weekday(int month, int day, int year)
+{	
+  int ix, tx, vx;
+
+  switch (month) {
+    case 2  :
+	case 6  : vx = 0; break;
+	case 8  : vx = 4; break;
+	case 10 : vx = 8; break;
+	case 9  :
+	case 12 : vx = 12; break;
+	case 3  :
+	case 11 : vx = 16; break;
+	case 1  :
+	case 5  : vx = 20; break;
+	case 4  :
+	case 7  : vx = 24; break;
+  }
+  if (year > 1900)  // 1900 was not a leap year
+    year -= 1900;
+  ix = ((year - 21) % 28) + vx + (month > 2);  // take care of February 
+  tx = (ix + (ix / 4)) % 7 + day;              // take care of leap year
+  return (tx % 7);
+}
 
 
 
@@ -17,7 +58,15 @@ int main(int argc, char** argv){
   configuration_info *configInfo;
   FILE* html;
   configInfo = readConfigFile();
-  setStartDate(configInfo,4,23,2012);
+  
+  int* month=(int*)malloc(sizeof(int));
+  int* day=(int*)malloc(sizeof(int));
+  int* year=(int*)malloc(sizeof(int));
+
+  //get_date(month,day,year);	
+  int monday = 11-weekday(5,11,2012)-1;
+  printf("%d",monday);
+  setStartDate(configInfo,5,monday,2012);
   //printConfigurationInfo(configInfo);
   // printf("%s\n",configInfo->nameOfOutputFile);
   week = createWorkWeekFromFile("academic.ics", configInfo);
@@ -26,7 +75,7 @@ int main(int argc, char** argv){
   html = printHeader();
   int i;
   for(i = -1; i < 7;i++){
-    fprintf(html,"<ul style='float:left;list-style-type:none;border-right:1px solid rgb(221, 221, 221);font-size:12px;min-width:150px;min-height:1080px;padding-left:5px;padding-right:5px;'>");
+    fprintf(html,"<ul style='float:left;list-style-type:none;border-right:1px solid rgb(221, 221, 221);font-size:12px;min-width:150px;min-height:880px;padding-left:5px;padding-right:5px;'>");
     if(i==-1){
       fprintTimes(html);
     }
