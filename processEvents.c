@@ -5,7 +5,6 @@ int isEventInWeek(icalcomponent * event, icaltime_span weekSpan){
   struct icaltime_span eventSpan;
 
   eventSpan = icalcomponent_get_span(event);
-  
   return icaltime_span_overlaps(&eventSpan, &weekSpan);
 
 }
@@ -28,8 +27,6 @@ event_node * createEventNode(icalcomponent *event){
   start = icalcomponent_get_dtstart(event);
   end = icalcomponent_get_dtend(event);
 
-  //I do not have a complete understanding of tm structure stuff
-  //but this makes it work, should look at this more
   temp = localtime(&rawtime);
   memcpy(newEvent->st,temp, sizeof(struct tm));
   memcpy(newEvent->et,temp, sizeof(struct tm));
@@ -48,15 +45,25 @@ event_node * createEventNode(icalcomponent *event){
   newEvent->et->tm_mday = end.day;
   newEvent->et->tm_mon = end.month -1;
   newEvent->et->tm_year = end.year - 1900;
-
+  
   newEvent->start_time = mktime(newEvent->st);
 
   newEvent->end_time = mktime(newEvent->et);
+
   newEvent->next_event = NULL;
-  strncpy(newEvent->summary, icalcomponent_get_summary(event), 30 * sizeof(char));
-  strncpy(newEvent->location, icalcomponent_get_location(event), 30 * sizeof(char));  
-  newEvent->summary[30] ='\0';
-  newEvent->location[30] ='\0';
+
+
+  newEvent->summary[0] ='\0';
+  newEvent->location[0] ='\0';
+  if(icalcomponent_get_summary(event)){
+    strncpy(newEvent->summary, icalcomponent_get_summary(event), 30 * sizeof(char));
+      newEvent->summary[30] ='\0';
+  }
+  if(icalcomponent_get_location(event)){
+    strncpy(newEvent->location, icalcomponent_get_location(event), 30 * sizeof(char));  
+    newEvent->location[30] ='\0';
+
+  }
 
 
   return newEvent;
@@ -76,7 +83,7 @@ void insertNode(event_node **currentNode, event_node **firstNode, event_node **l
   else if(difftime((*firstNode)->start_time, (*currentNode)->start_time) > 0){
     //if it is then put it in front and update accordingly
     (*currentNode)->next_event = *firstNode;
-    firstNode = currentNode;
+    *firstNode = *currentNode;
   }
   else{
     cn = *firstNode;
@@ -99,7 +106,6 @@ event_node * createLinkedListOfEvents(icalcomponent *calendar, icaltime_span wee
   firstNode = NULL;
   lastNode = NULL;
   currentEvent = icalcomponent_get_first_real_component(calendar); 
-
   while(currentEvent != 0){
     if(isEventInWeek(currentEvent, weekSpan)){
       currentNode = createEventNode(currentEvent);
@@ -113,11 +119,11 @@ event_node * createLinkedListOfEvents(icalcomponent *calendar, icaltime_span wee
 
       }
     }
-    // icalcomponent_free(currentEvent);
     currentEvent = icalcomponent_get_next_component(calendar,ICAL_VEVENT_COMPONENT);
 
   }
-  //icalcomponent_free(calendar);
+  event_node *tmp = firstNode;
+
   return firstNode;
 }
 
