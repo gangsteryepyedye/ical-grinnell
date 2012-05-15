@@ -6,12 +6,6 @@
 #include "calSystem.h"
 #include "readConfigFile.h"
 
-
-
-
-
-
-
 int main(int argc, char** argv){
   work_week *week;
   configuration_info *configInfo;
@@ -19,7 +13,12 @@ int main(int argc, char** argv){
   setStartDate(configInfo,5,7,2012);
   //printConfigurationInfo(configInfo);
   // printf("%s\n",configInfo->nameOfOutputFile);
-  week = createWorkWeekFromFile("basic.ics", configInfo);
+  argv++;
+  if(*argv == NULL) {
+    printf("No calendar file provided!  Exitting.\n");
+    return 0;
+  }
+  week = createWorkWeekFromFile(*argv, configInfo);
 
   createPrintableFile(week, configInfo);
   int i;

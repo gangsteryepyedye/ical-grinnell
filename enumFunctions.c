@@ -1,11 +1,13 @@
+/** @file
+    @brief
+    
+*/
+
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "dataStructures.h"
 #include "calEnum.h"
-
-
-
 
 int weekDayToInt(char * weekDayString){
   if(! strncmp(weekDayString, "SUNDAY",6)){
