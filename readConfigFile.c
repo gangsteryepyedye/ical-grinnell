@@ -1,4 +1,10 @@
-
+/** @file
+    @brief
+    This file contains routines designed to parse a configuration file for
+    settings, returning a string that can be passed to other methods.
+    
+    
+*/
 
 #include "readConfigFile.h"
 #include "enumFunctions.h"
