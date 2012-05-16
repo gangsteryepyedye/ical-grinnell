@@ -7,49 +7,6 @@
 #include "readConfigFile.h"
 
 
-void get_date( int * month, int * day, int * year ) {
-    time_t timenow = time(0); 
-    struct tm *current;
-
-
-    current = localtime(&timenow);
-
-
-
-return;
-}
-
-
-//
-// given month, day, year, returns day of week, eg. Monday = 0 etc.
-// tested for 1901 to 2099 (seems to work from 1800 on too)
-// 
-int weekday(int month, int day, int year)
-{	
-  int ix, tx, vx;
-
-  switch (month) {
-    case 2  :
-	case 6  : vx = 0; break;
-	case 8  : vx = 4; break;
-	case 10 : vx = 8; break;
-	case 9  :
-	case 12 : vx = 12; break;
-	case 3  :
-	case 11 : vx = 16; break;
-	case 1  :
-	case 5  : vx = 20; break;
-	case 4  :
-	case 7  : vx = 24; break;
-  }
-  if (year > 1900)  // 1900 was not a leap year
-    year -= 1900;
-  ix = ((year - 21) % 28) + vx + (month > 2);  // take care of February 
-  tx = (ix + (ix / 4)) % 7 + day;              // take care of leap year
-  return (tx % 7);
-}
-
-
 
 
 
@@ -59,18 +16,23 @@ int main(int argc, char** argv){
   FILE* html;
   configInfo = readConfigFile();
   
+
+  //this secton creates and runs get_Monday, so we know which week to print from our .ics file
+  //it gets the most recent Monday from the system time
   int* month=(int*)malloc(sizeof(int));
   int* day=(int*)malloc(sizeof(int));
   int* year=(int*)malloc(sizeof(int));
+  get_Monday(month, day, year);
+  printf("Monday: %d - %d - %d \n", *month, *day, *year);
 
-  //get_date(month,day,year);	
-  //int monday = 11-weekday(5,11,2012);
-  //printf("%d",monday);
-  setStartDate(configInfo,5,6,2012);
+  //this section initializes data structures for storing info from our calendar, and produces a work_week
+  setStartDate(configInfo,*month,*day,*year);
   //printConfigurationInfo(configInfo);
   //printf("%s\n",configInfo->nameOfOutputFile);
   week = createWorkWeekFromFile("basic.ics", configInfo);
 
+
+  //this section uses the work week we've just created to print out our html file
   createPrintableFile(week, configInfo);
   html = printHeader();
   int i;
