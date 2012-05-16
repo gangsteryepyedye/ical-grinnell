@@ -77,6 +77,7 @@ work_week * createWorkWeekFromFile(char * calendarFile, configuration_info *conf
 
   return week;
 }
+
 void freeEvent(event_node *event){
   free(event->st);
   free(event->et);
